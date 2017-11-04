@@ -1,0 +1,86 @@
+body {
+    font-family: "Comic Sans MS";
+    width: 80%;
+    padding: 1rem;
+    background-color: rgb(232,232,231);
+}
+
+#content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 2px #aaa;
+    width: 15rem;
+    height: 15rem;
+    margin: 1rem;
+    background-color: white;
+}
+
+
+.imageSection {
+    height: 7.5rem;
+    width: inherit;
+    overflow: hidden;
+}
+
+.backNote {
+    width: inherit;
+}
+
+
+.text {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+    padding-left: 1rem;
+    padding-right: 1rem
+}
+
+
+.actionPad {
+    align-self: flex-end;
+    order: 2;
+    margin-top: auto;
+    visibility: hidden;
+}
+
+.box:hover .actionPad{
+    visibility: visible;
+}
+
+.red {
+    background-color: rgb(255,137,128);
+}
+
+.yellow {
+    background-color: rgb(253,255,141);
+}
+
+.orange {
+    background-color: rgb(251,208,125);
+}
+
+.blue {
+    background-color: rgb(128,216,255);
+}
+
+@media (max-width:768px) {
+	#content {
+		padding: 1.3rem;
+	}
+	.box {
+		width: 100%;
+	}
+}
