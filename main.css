@@ -1,15 +1,25 @@
 body {
     font-family: "Comic Sans MS";
-    width: 80%;
+    width: 100%; /* Made it 100%, because 80% leaves too much empty space */
     padding: 1rem;
     background-color: rgb(232,232,231);
 }
 
 #content {
     display: flex;
+    flex-direction: column;
+}
+
+.sectorTitle {
+    padding-left: 3rem;
+    font-size: 2.3rem;
+    font-weight: bold;
+}
+
+.sectorContent {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
 }
 
 .box {
@@ -50,14 +60,28 @@ body {
 
 
 .actionPad {
+    font-weight: normal;
     align-self: flex-end;
-    order: 2;
     margin-top: auto;
     visibility: hidden;
 }
 
 .box:hover .actionPad{
     visibility: visible;
+}
+
+.add{
+    order: 1;
+}
+
+.add:hover {
+    background-color: #f7f7f7;
+}
+
+.add > .title {
+    text-align: center;
+    font-weight: normal;
+    font-size: 9rem;
 }
 
 .red {
@@ -76,10 +100,17 @@ body {
     background-color: rgb(128,216,255);
 }
 
+.grey {
+    background-color: #c7d0cc;
+}
+
 @media (max-width:768px) {
 	#content {
 		padding: 1.3rem;
 	}
+    .sectorTitle{
+        padding-left: 1rem; 
+    }
 	.box {
 		width: 100%;
 	}
