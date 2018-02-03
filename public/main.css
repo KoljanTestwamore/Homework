@@ -1,0 +1,152 @@
+body {
+    width: 95%; /* Made it 100%, because 80% leaves too much empty space */
+    padding: 1rem;
+    background-color: rgb(232,232,231);
+}
+
+body, textarea {
+    font-family: "Comic Sans MS";
+}
+
+#content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectorTitle {
+    padding-left: 3rem;
+    font-size: 2.3rem;
+    font-weight: bold;
+}
+
+.sectorContent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 2px #aaa;
+    width: 15rem;
+    min-height: 15rem;
+    margin: 1rem;
+    background-color: white;
+}
+
+.plusImage {
+    margin: auto;
+    pointer-events: none;
+    width: 6.7rem;
+    height: 6.7rem;
+}
+
+.imageSection {
+    max-height: 7.5rem;
+    width: inherit;
+    overflow: hidden;
+    min-height: 0;
+}
+
+
+.image {
+    width: inherit;
+    min-height: 0;
+}
+
+.image[src=""] {
+    display: none;
+}
+
+ textarea {
+    resize: none;
+    outline: none;
+    background-color: inherit;
+    overflow: hidden;
+    border: 0;
+}
+
+.text {
+    width: 85%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+}
+
+.title {
+    width: 90%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-top: .4rem;
+    padding-left: 1rem;
+    padding-right: .4rem
+}
+        
+
+.actionPad {
+    font-weight: normal;
+    align-self: flex-end;
+    margin-top: auto;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.box:hover > .actionPad{
+    visibility: visible;
+}
+
+.add  {
+    order: 1;
+}
+
+.add:hover {
+    background-color: #F9F6F6;
+
+}
+
+.add:hover > .plusImage {
+    width: 7rem;
+    height: 7rem;
+}
+
+.imageSection:hover {
+    width: inherit;
+    overflow: visible;
+    min-height: 0;
+    z-index: 1;
+}
+
+
+.red {
+    background-color: rgb(255,137,128);
+}
+
+.yellow {
+    background-color: rgb(253,255,141);
+}
+
+.orange {
+    background-color: rgb(251,208,125);
+}
+
+.blue {
+    background-color: rgb(128,216,255);
+}
+
+.grey {
+    background-color: #c7d0cc;
+}
+
+@media (max-width:768px) {
+	#content {
+		padding: 1.3rem;
+	}
+    .sectorTitle{
+        padding-left: 1rem; 
+    }
+	.box {
+		width: 100%;
+	}
+}
