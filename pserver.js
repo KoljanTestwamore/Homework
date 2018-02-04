@@ -15,7 +15,6 @@ app.use(express.static('public'))
 
 
 app.post('/users',(req,res) => {
-	//res.data = data;	
 	console.log(req.body);
 	res.send("ok");
 });

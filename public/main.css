@@ -28,6 +28,7 @@ body, textarea {
 
 .box {
     display: flex;
+    font-size: 1.5rem;
     flex-direction: column;
     box-shadow: 1px 1px 2px #aaa;
     width: 15rem;
@@ -69,17 +70,15 @@ body, textarea {
 }
 
 .text {
-    width: 85%;
     padding-left: 1rem;
     padding-right: 1rem;
     font-size: 1rem;
 }
 
 .title {
-    width: 90%;
     font-size: 1.5rem;
     font-weight: bold;
-    padding-top: .4rem;
+    padding-top: .3rem;
     padding-left: 1rem;
     padding-right: .4rem
 }

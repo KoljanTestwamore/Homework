@@ -1,9 +1,7 @@
-const addPads = document.getElementsByClassName('add');
+const addBoxes = document.getElementsByClassName('add');
 
 function makeNote(note) {
-    let sectorNumber = +!(note["group"] === 'priority');
-
-    let content = document.querySelectorAll(".sectorContent")[sectorNumber]; 
+    let content = document.querySelectorAll(".sectorContent")[+!(note["group"] === 'priority')]; 
 
     let box = createElement('div', 'box', content)
     box.classList.add(note["color"]);
@@ -15,221 +13,115 @@ function makeNote(note) {
                                                             : ""
         );
 
-    let title = createElement('textarea', 'title', box);
-    title.textContent = note["title"];
-    addEventListenerToInput(title);
-    formateTextarea(title)
+    let title = createInputElement('textarea', 'title', box, note["title"]);
 
-    let text = createElement('textarea','text',box,note["content"]);
-    addEventListenerToInput(text);
-    formateTextarea(text);
+    let text = createInputElement('textarea', 'text', box, note["content"]);
 
-    let actionPad = createElement('div', 'actionPad', box);
-
-    let actPrev = createElement('img','',actionPad,"icons/arrowprev.png")
-    actPrev.addEventListener('click',()=>{
-        let prevBox = box.previousSibling;
-        if (prevBox.classList != undefined) { 
-            let tempColor = getColor(prevBox);
-            prevBox.classList.remove(tempColor);
-            prevBox.classList.add(getColor(box));
-            box.classList.remove(getColor(box));
-            box.classList.add(tempColor);
-
-            let tempString = prevBox.querySelector(".title").value;
-            prevBox.querySelector(".title").value = box.querySelector(".title").value;
-            box.querySelector(".title").value = tempString;
-
-            tempString = prevBox.querySelector(".text").value;
-            prevBox.querySelector(".text").value = box.querySelector(".text").value;
-            box.querySelector(".text").value = tempString;
-
-            tempString = prevBox.querySelector(".image").src;
-            if (!(tempString.includes("images/"))) tempString = "";
-            prevBox.querySelector(".image").src = (box.querySelector(".image").src.includes("images")) 
-                                                            ? box.querySelector(".image").src 
-                                                            : "";
-            box.querySelector(".image").src = tempString; 
-
-            formateTextarea(prevBox.querySelector(".title"));
-            formateTextarea(box.querySelector(".title"));
-            formateTextarea(prevBox.querySelector(".text"));
-            formateTextarea(box.querySelector(".text"));
-        }
-    })
-
-
-    let actNext = createElement('img','',actionPad,"icons/arrownext.png")
-    actNext.addEventListener('click',()=>{
-        let nextBox = box.nextSibling;
-        if (nextBox != null) { 
-            let tempColor = getColor(nextBox);
-            nextBox.classList.remove(tempColor);
-            nextBox.classList.add(getColor(box));
-            box.classList.remove(getColor(box));
-            box.classList.add(tempColor);
-
-            let tempString = nextBox.querySelector(".title").value;
-            nextBox.querySelector(".title").value = box.querySelector(".title").value;
-            box.querySelector(".title").value = tempString;
-
-            tempString = nextBox.querySelector(".text").value;
-            nextBox.querySelector(".text").value = box.querySelector(".text").value;
-            box.querySelector(".text").value = tempString;
-
-            tempString = nextBox.querySelector(".image").src;
-            if (!(tempString.includes("images/"))) tempString = "";
-            nextBox.querySelector(".image").src = (box.querySelector(".image").src.includes("images")) 
-                                                            ? box.querySelector(".image").src 
-                                                            : "";
-            box.querySelector(".image").src = tempString; 
-
-            formateTextarea(nextBox.querySelector(".title"));
-            formateTextarea(box.querySelector(".title"));
-            formateTextarea(nextBox.querySelector(".text"));
-            formateTextarea(box.querySelector(".text"));
-        }
-    })
-
-    let actColor = createElement('img','',actionPad,"icons/color.png")
-    actColor.addEventListener('click',()=>{
-        if (box.classList.contains("red")) {
-            box.classList.remove("red");
-            box.classList.add("yellow");
-        } else if (box.classList.contains("yellow")) {
-            box.classList.remove("yellow");
-            box.classList.add("orange");            
-        } else if (box.classList.contains("orange")) {
-            box.classList.remove("orange");
-            box.classList.add("blue");            
-        } else {
-            box.classList.remove("blue");
-            box.classList.add("red"); 
-        }
-    })
-
-    let actDelete = createElement('img','',actionPad,"icons/delete.png")
-    actDelete.addEventListener('click', ()=>{
-        content.removeChild(box);
-    })
+    createPads(box);
 }
 
-for (let pad of addPads) {
-    pad.addEventListener('click', function() {
-        let content = pad.parentElement;
+for (let boxAdder of addBoxes) {
+    boxAdder.addEventListener('click', function() {
+        let content = boxAdder.parentElement;
 
         let box = createElement('div', 'box', content)
         box.classList.add(["red","orange","blue","yellow"][Math.floor(Math.random()*3)]);
 
-        let imageSection = createElement('div','imageSection',box);
+        let imageSection = createElement('div', 'imageSection', box);
 
-        let image = createElement('img', 'image', imageSection,"");
+        let image = createElement('img', 'image', imageSection, "");
 
-        let title = createElement('textarea','title', box,"title")
-        formateTextarea(title);
-        addEventListenerToInput(title);
+        let title = createInputElement('textarea','title', box, "title");
 
-        let  text = createElement('textarea', 'text', box, "text")
-        formateTextarea(text);
-        addEventListenerToInput(text);
+        let text = createInputElement('textarea', 'text', box, "text");
 
-        let actionPad = createElement('div','actionPad',box);
-
-        let actPrev = createElement('img','',actionPad, "icons/arrowprev.png")
-        actPrev.addEventListener('click',()=>{
-            let prevBox = box.previousSibling;
-            if (prevBox.classList != undefined) { 
-                let tempColor = getColor(prevBox);
-                prevBox.classList.remove(tempColor);
-                prevBox.classList.add(getColor(box));
-                box.classList.remove(getColor(box));
-                box.classList.add(tempColor);
-
-                let tempString = prevBox.querySelector(".title").value;
-                prevBox.querySelector(".title").value = box.querySelector(".title").value;
-                box.querySelector(".title").value = tempString;
-
-                tempString = prevBox.querySelector(".text").value;
-                prevBox.querySelector(".text").value = box.querySelector(".text").value;
-                box.querySelector(".text").value = tempString;
-
-                tempString = prevBox.querySelector(".image").src;
-                if (!(tempString.includes("images/"))) tempString = "";
-                prevBox.querySelector(".image").src = (box.querySelector(".image").src.includes("images")) 
-                                                                ? box.querySelector(".image").src 
-                                                                : "";
-                box.querySelector(".image").src = tempString; 
-
-                formateTextarea(prevBox.querySelector(".title"));
-                formateTextarea(box.querySelector(".title"));
-                formateTextarea(prevBox.querySelector(".text"));
-                formateTextarea(box.querySelector(".text"));
-            }
-        })
-
-        let actNext = createElement('img','',actionPad,"icons/arrownext.png")
-        actNext.addEventListener('click',()=>{
-            let nextBox = box.nextSibling;
-            if (nextBox != null) { 
-                let tempColor = getColor(nextBox);
-                nextBox.classList.remove(tempColor);
-                nextBox.classList.add(getColor(box));
-                box.classList.remove(getColor(box));
-                box.classList.add(tempColor);
-
-                let tempString = tempColor.querySelector(".title").value;
-                tempColor.querySelector(".title").value = box.querySelector(".title").value;
-                box.querySelector(".title").value = tempString;
-
-                tempString = tempColor.querySelector(".text").value;
-                tempColor.querySelector(".text").value = box.querySelector(".text").value;
-                box.querySelector(".text").value = tempString;
-
-                tempString = nextBox.querySelector(".image").src;
-                if (!(tempString.includes("images/"))) tempString = "";
-                nextBox.querySelector(".image").src = (box.querySelector(".image").src.includes("images")) 
-                                                                ? box.querySelector(".image").src 
-                                                                : "";
-                box.querySelector(".image").src = tempString; 
-
-                formateTextarea(nextBox.querySelector(".title"));
-                formateTextarea(box.querySelector(".title"));
-                formateTextarea(nextBox.querySelector(".text"));
-                formateTextarea(box.querySelector(".text"));
-            }
-        })
-
-        let actColor = createElement('img','',actionPad,"icons/color.png");
-        actColor.addEventListener('click',()=>{
-            if (box.classList.contains("red")) {
-                box.classList.remove("red");
-                box.classList.add("yellow");
-            } else if (box.classList.contains("yellow")) {
-                box.classList.remove("yellow");
-                box.classList.add("orange");            
-            } else if (box.classList.contains("orange")) {
-                box.classList.remove("orange");
-                box.classList.add("blue");            
-            } else {
-                box.classList.remove("blue");
-                box.classList.add("red"); 
-            }
-        })
-
-        let actDelete = createElement('img','',actionPad,"icons/delete.png");
-        actDelete.addEventListener('click', ()=>{
-            content.removeChild(box);
-        })
+        createPads(box);
     })
 }
 
-function createElement(type, elementClass, parentElement, context) {
+function swapBoxes(box1,box2) {
+    if (box2 != null) { 
+        let tempColor = getColor(box2);
+        box2.classList.remove(tempColor);
+        box2.classList.add(getColor(box1));
+        box1.classList.remove(getColor(box1));
+        box1.classList.add(tempColor);
+
+        let tempString = box2.querySelector(".title").value;
+        box2.querySelector(".title").value = box1.querySelector(".title").value;
+        box1.querySelector(".title").value = tempString;
+
+        tempString = box2.querySelector(".text").value;
+        box2.querySelector(".text").value = box1.querySelector(".text").value;
+        box1.querySelector(".text").value = tempString;
+
+        tempString = box2.querySelector(".image").src;
+        if (!(tempString.includes("images/"))) tempString = "";
+        box2.querySelector(".image").src = (box1.querySelector(".image").src.includes("images")) 
+                                                        ? box.querySelector(".image").src 
+                                                        : "";
+        box1.querySelector(".image").src = tempString; 
+
+        formateTextarea(box2.querySelector(".title"));
+        formateTextarea(box1.querySelector(".title"));
+        formateTextarea(box2.querySelector(".text"));
+        formateTextarea(box1.querySelector(".text"));
+    }
+}
+
+function changeColor(box) {
+    if (box.classList.contains("red")) {
+        box.classList.remove("red");
+        box.classList.add("yellow");
+    } else if (box.classList.contains("yellow")) {
+        box.classList.remove("yellow");
+        box.classList.add("orange");            
+    } else if (box.classList.contains("orange")) {
+        box.classList.remove("orange");
+        box.classList.add("blue");            
+    } else {
+        box.classList.remove("blue");
+        box.classList.add("red"); 
+    }
+}
+
+function createPads(box) {
+    let actionPad = createElement('div','actionPad',box);
+
+    let actPrev = createElement('img','',actionPad, "icons/arrowprev.png")
+    actPrev.addEventListener('click',()=>{
+        swapBoxes(box, box.previousSibling);
+    });
+
+    let actNext = createElement('img','',actionPad,"icons/arrownext.png")
+    actNext.addEventListener('click',()=>{
+        swapBoxes(box, box.nextSibling);
+    });
+
+    let actColor = createElement('img','',actionPad,"icons/color.png");
+    actColor.addEventListener('click',()=>{
+        changeColor(box);
+    });
+
+    let actDelete = createElement('img','',actionPad,"icons/delete.png");
+    actDelete.addEventListener('click', ()=>{
+        content.removeChild(box);
+    });
+}
+
+function createElement(type, elementClass, parentElement, content) {
     let $elem = document.createElement(type);
     parentElement.appendChild($elem);
     $elem.className = elementClass;
-    if (type === 'img') $elem.src = context
-        else $elem.textContent = context;
+    if (type === 'img') $elem.src = content
+        else $elem.textContent = content;
     return $elem;
+}
+
+function createInputElement(type, elementClass, parentElement, content) {
+    let input = createElement(type, elementClass, parentElement, content);
+    formateTextarea(input);
+    addEventListenerToInput(input);
 }
 
 function formateTextarea(textarea) {
@@ -275,7 +167,6 @@ document.addEventListener('keyup', () => {
                 console.log(xhrPost.response);
             };
             xhrPost.send(JSON.stringify(dataArray));
-            //xhrPost.send("ok");
             console.log(JSON.stringify(dataArray));
         });
 
