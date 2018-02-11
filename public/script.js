@@ -1,7 +1,9 @@
 const addBoxes = document.getElementsByClassName('add');
+const colors = ["red","orange","blue","yellow"];
 
 function makeNote(note) {
-    let content = document.querySelectorAll(".sectorContent")[+!(note["group"] === 'priority')]; 
+    let sectorNumber = (note["group"] === 'priority') ? 0 : 1;
+    let content = document.querySelectorAll(".sectorContent")[sectorNumber]; 
 
     let box = createElement('div', 'box', content)
     box.classList.add(note["color"]);
@@ -18,25 +20,6 @@ function makeNote(note) {
     let text = createInputElement('textarea', 'text', box, note["content"]);
 
     createPads(box);
-}
-
-for (let boxAdder of addBoxes) {
-    boxAdder.addEventListener('click', function() {
-        let content = boxAdder.parentElement;
-
-        let box = createElement('div', 'box', content)
-        box.classList.add(["red","orange","blue","yellow"][Math.floor(Math.random()*3)]);
-
-        let imageSection = createElement('div', 'imageSection', box);
-
-        let image = createElement('img', 'image', imageSection, "");
-
-        let title = createInputElement('textarea','title', box, "title");
-
-        let text = createInputElement('textarea', 'text', box, "text");
-
-        createPads(box);
-    })
 }
 
 function swapBoxes(box1,box2) {
@@ -58,7 +41,7 @@ function swapBoxes(box1,box2) {
         tempString = box2.querySelector(".image").src;
         if (!(tempString.includes("images/"))) tempString = "";
         box2.querySelector(".image").src = (box1.querySelector(".image").src.includes("images")) 
-                                                        ? box.querySelector(".image").src 
+                                                        ? box1.querySelector(".image").src 
                                                         : "";
         box1.querySelector(".image").src = tempString; 
 
@@ -107,6 +90,7 @@ function createPads(box) {
     actDelete.addEventListener('click', ()=>{
         content.removeChild(box);
     });
+    actionPad.addEventListener('click', sendData);
 }
 
 function createElement(type, elementClass, parentElement, content) {
@@ -144,7 +128,7 @@ function getColor(box) {
     }
 }
 
-document.addEventListener('keyup', () => {
+function sendData() {
             let dataArray = [];
             let allBoxes = document.querySelectorAll(".box:not(.add)");
             for (let i = 0 ; i < allBoxes.length; i++) {
@@ -156,7 +140,7 @@ document.addEventListener('keyup', () => {
                     "group" : (box.parentElement.classList.contains("firstSectorContent")) ? "priority" : "normal"
                 };
                 if (box.querySelector(".image").src.includes("images/")) 
-                    elementToAdd["images"] = box.querySelector(".image").src.split("/").pop();
+                    elementToAdd["image"] = box.querySelector(".image").src.split("/").pop();
                 dataArray.push(elementToAdd);
             }
             const xhrPost = new XMLHttpRequest();
@@ -168,12 +152,30 @@ document.addEventListener('keyup', () => {
             };
             xhrPost.send(JSON.stringify(dataArray));
             console.log(JSON.stringify(dataArray));
-        });
-
+        }
 
 /*----------------------------------------------------------------------*/
+for (let boxAdder of addBoxes) {
+    boxAdder.addEventListener('click', function() {
+        let content = boxAdder.parentElement;
+
+        let box = createElement('div', 'box', content)
+        box.classList.add(colors[Math.floor(Math.random()*colors.length)]);
+
+        let imageSection = createElement('div', 'imageSection', box);
+
+        let image = createElement('img', 'image', imageSection, "");
+
+        let title = createInputElement('textarea','title', box, "title");
+
+        let text = createInputElement('textarea', 'text', box, "text");
+
+        createPads(box);
+    })
+}
+
 let data = {};
-let lol = false;
+
 const xhrGet = new XMLHttpRequest();
 xhrGet.open("GET","http://localhost:8080/data");
 xhrGet.onreadystatechange = () => {
@@ -189,5 +191,5 @@ xhrGet.onreadystatechange = () => {
         }
     }
 };
-console.log("xhrGet");
 xhrGet.send();
+document.addEventListener('keyup', sendData);

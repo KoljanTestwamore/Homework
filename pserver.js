@@ -6,7 +6,8 @@ app.use(require('express-log-url'));
 const logger = require('express-log-url');
 
 const fs = require('fs');
-let data = require('./data/data.json')
+let dataPath = './data/data.json';
+let data = require(dataPath)
 
 const bodyParser = require('body-parser');
 
@@ -16,6 +17,10 @@ app.use(express.static('public'))
 
 app.post('/users',(req,res) => {
 	console.log(req.body);
+	fs.writeFile(dataPath,JSON.stringify(req.body),(err) => {
+		console.log(err);
+	})
+	data = req.body;
 	res.send("ok");
 });
 
